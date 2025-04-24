@@ -2,66 +2,14 @@
 
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import * as Tabs from "@radix-ui/react-tabs";
+import { getProductBySlug, products } from "../../../data/products";
 import TabNavigator from "@/components/TabNavigator";
-import { useEffect, useState } from "react";
-
-interface ProductImage {
-  public_id: string;
-  url: string;
-}
-
-interface Product {
-  _id?: string;
-  id?: string;
-  name: string;
-  slug: string;
-  description: string;
-  applications: string[];
-  industries: string[];
-  images: ProductImage[];
-}
+import * as Tabs from "@radix-ui/react-tabs";
 
 export default function ProductDetails() {
-  const { slug } = useParams<{ slug: string }>();
+  const params = useParams();
   const router = useRouter();
-
-  const [product, setProduct] = useState<Product | null>(null);
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch data dynamically based on the slug
-  useEffect(() => {
-    const fetchProductData = async () => {
-      try {
-        const [productRes, allRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${slug}`),
-          fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`),
-        ]);
-
-        if (!productRes.ok || !allRes.ok) {
-          throw new Error("Failed to fetch product data");
-        }
-
-        const productData = await productRes.json();
-        const allData = await allRes.json();
-
-        setProduct(productData.product);
-        setAllProducts(allData.products);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        setProduct(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductData();
-  }, [slug]);
-
-  if (loading) {
-    return <p className="text-center py-10 text-gray-600">Loading product details...</p>;
-  }
+  const product = getProductBySlug(params.slug as string);
 
   if (!product) {
     return (
@@ -110,13 +58,13 @@ export default function ProductDetails() {
           className="w-full bg-gray-100 p-4 mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
           aria-label="Product Tabs"
         >
-          {allProducts.map((p) => (
+          {products.map((p) => (
             <Tabs.Trigger
-              key={p._id}
+              key={p.id}
               value={p.slug}
               className={`px-4 py-2 text-sm text-left rounded-lg transition-colors duration-300 shadow-sm w-full focus:outline-none
-                data-[state=active]:bg-[#0E9696] data-[state=active]:text-white
-                bg-white hover:bg-[#0E9696] hover:text-white`}
+              data-[state=active]:bg-[#0E9696] data-[state=active]:text-white
+              bg-white hover:bg-[#0E9696] hover:text-white`}
             >
               {p.name}
             </Tabs.Trigger>
@@ -128,20 +76,18 @@ export default function ProductDetails() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Images */}
         <div className="space-y-4">
-          {product.images?.[0]?.url && (
-            <Image
-              src={product.images[0].url}
-              alt={product.name}
-              width={400}
-              height={400}
-              className="object-cover rounded-lg w-full max-w-md"
-            />
-          )}
+          <Image
+            src={`${product.images[0]}.jpg`}
+            alt={product.name}
+            width={400}
+            height={400}
+            className="object-cover rounded-lg w-full max-w-md"
+          />
           <div className="grid grid-cols-3 gap-4">
-            {product.images.slice(1).map((img, i) => (
+            {product.images.slice(1).map((image, i) => (
               <Image
                 key={i}
-                src={img.url}
+                src={`${image}.jpg`}
                 alt={`${product.name} view ${i + 2}`}
                 width={120}
                 height={120}

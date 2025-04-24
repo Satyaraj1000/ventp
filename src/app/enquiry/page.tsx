@@ -44,22 +44,14 @@ export default function EnquiryPage() {
     setMessage("");
 
     try {
-      // 1. Send email
-      const emailRes = await fetch("/api/send-email", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      // 2. Store enquiry in backend
-      const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/enquiry`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (emailRes.ok && backendRes.ok) {
-        setMessage("Request submitted successfully!");
+      if (response.ok) {
+        setMessage("Email sent successfully!");
         setFormData({
           name: "",
           company: "",
@@ -70,11 +62,10 @@ export default function EnquiryPage() {
           requirements: "",
         });
       } else {
-        setMessage("Failed to send request.");
+        setMessage("Failed to send email.");
       }
     } catch (error) {
-      console.error("Enquiry submission error:", error);
-      setMessage("Something went wrong. Please try again later.");
+      setMessage("Error sending email.");
     } finally {
       setLoading(false);
     }
@@ -89,7 +80,10 @@ export default function EnquiryPage() {
         Please fill out the form below to request a quote for our products.
       </p>
 
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow-md space-y-6"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Name */}
           <div className="relative">
@@ -98,9 +92,16 @@ export default function EnquiryPage() {
               required
               className="peer h-12 pt-6"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
-            <Label htmlFor="name" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.name ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+            <Label
+              htmlFor="name"
+              className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+                formData.name ? "top-1 text-xs text-[#0E9696]" : ""
+              }`}
+            >
               Name *
             </Label>
           </div>
@@ -111,9 +112,16 @@ export default function EnquiryPage() {
               id="company"
               className="peer h-12 pt-6"
               value={formData.company}
-              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, company: e.target.value })
+              }
             />
-            <Label htmlFor="company" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.company ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+            <Label
+              htmlFor="company"
+              className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+                formData.company ? "top-1 text-xs text-[#0E9696]" : ""
+              }`}
+            >
               Company Name
             </Label>
           </div>
@@ -126,9 +134,16 @@ export default function EnquiryPage() {
               required
               className="peer h-12 pt-6"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
-            <Label htmlFor="email" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.email ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+            <Label
+              htmlFor="email"
+              className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+                formData.email ? "top-1 text-xs text-[#0E9696]" : ""
+              }`}
+            >
               Email *
             </Label>
           </div>
@@ -141,21 +156,33 @@ export default function EnquiryPage() {
               required
               className="peer h-12 pt-6"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
             />
-            <Label htmlFor="phone" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.phone ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+            <Label
+              htmlFor="phone"
+              className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+                formData.phone ? "top-1 text-xs text-[#0E9696]" : ""
+              }`}
+            >
               Phone *
             </Label>
           </div>
 
           {/* Product */}
           <div className="relative">
-            <Label htmlFor="product" className="mb-1 block text-sm text-muted-foreground">
+            <Label
+              htmlFor="product"
+              className="mb-1 block text-sm text-muted-foreground"
+            >
               Product *
             </Label>
             <Select
               value={formData.product}
-              onValueChange={(value) => setFormData({ ...formData, product: value })}
+              onValueChange={(value) =>
+                setFormData({ ...formData, product: value })
+              }
               required
             >
               <SelectTrigger className="bg-white">
@@ -181,9 +208,16 @@ export default function EnquiryPage() {
               id="quantity"
               className="peer h-12 pt-6"
               value={formData.quantity}
-              onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, quantity: e.target.value })
+              }
             />
-            <Label htmlFor="quantity" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.quantity ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+            <Label
+              htmlFor="quantity"
+              className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+                formData.quantity ? "top-1 text-xs text-[#0E9696]" : ""
+              }`}
+            >
               Quantity
             </Label>
           </div>
@@ -196,14 +230,21 @@ export default function EnquiryPage() {
             rows={4}
             className="peer pt-6"
             value={formData.requirements}
-            onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, requirements: e.target.value })
+            }
           />
-          <Label htmlFor="requirements" className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${formData.requirements ? "top-1 text-xs text-[#0E9696]" : ""}`}>
+          <Label
+            htmlFor="requirements"
+            className={`absolute left-3 top-3 text-sm text-muted-foreground transition-all duration-200 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#0E9696] ${
+              formData.requirements ? "top-1 text-xs text-[#0E9696]" : ""
+            }`}
+          >
             Specific Requirements
           </Label>
         </div>
 
-        {/* Submit */}
+        {/* Submit Button */}
         <Button
           type="submit"
           className="w-full bg-[#0E9696] hover:bg-[#0C7B7B] text-white py-3"
@@ -212,9 +253,15 @@ export default function EnquiryPage() {
           {loading ? "Sending..." : "Submit Request"}
         </Button>
 
-        {/* Status Message */}
+        {/* Message */}
         {message && (
-          <p className={`text-center text-sm ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
+          <p
+            className={`text-center text-sm ${
+              message.includes("successfully")
+                ? "text-green-600"
+                : "text-red-600"
+            }`}
+          >
             {message}
           </p>
         )}

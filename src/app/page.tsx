@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -9,20 +8,11 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
+import { products } from "@/data/products"; // Static data
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products || [])); // Adjust based on your API shape
-  }, []);
-
-  console.log(products);
-  
-
-  const carouselImages = [
+  const product = products;
+  const images = [
     "/images/poster1.png",
     "/images/poster2.png",
     "/images/poster3.png",
@@ -36,18 +26,20 @@ export default function Home() {
   return (
     <main className="w-full p-5 md:p-10 block">
       {/* Carousel */}
+      {/* Carousel */}
       <Carousel
         plugins={[Autoplay({ delay: 3000 })]}
-        className="w-full max-w-4xl mx-auto bg-gray-800 p-2 rounded-lg"
+        className="w-full mx-auto bg-gray-800 p-2 rounded-lg"
       >
-        <CarouselContent className="w-full h-64 sm:h-72 md:h-80 lg:h-96">
-          {carouselImages.map((src, idx) => (
+        <CarouselContent className="w-full h-64 sm:h-80 md:h-[400px] lg:h-[500px] xl:h-[600px]">
+          {images.map((src, idx) => (
             <CarouselItem key={idx} className="relative w-full h-full">
               <Image
                 src={src}
                 alt={`Slide ${idx + 1}`}
                 fill
                 className="object-cover rounded-md"
+                priority={idx === 0} // Optional: prioritize first image
               />
             </CarouselItem>
           ))}
@@ -85,8 +77,8 @@ export default function Home() {
 
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {products.map((product: any) => (
-              <ProductCard key={product._id || product.id} product={product} />
+            {product.map((product: any) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>

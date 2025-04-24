@@ -2,21 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { Product } from "@/data/products";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface ProductImage {
-  public_id: string;
-  url: string;
-}
-
-interface Product {
-  _id?: string;
-  id?: string;
-  name: string;
-  slug: string;
-  shortDescription: string;
-  images?: ProductImage[];
-}
 
 interface ProductCardProps {
   product: Product;
@@ -24,11 +11,6 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
-
-  // Fallback image if none exists
-  const imageUrl = product.images?.[0]?.url || "/images.jpeg";
-
-  if (!product) return null; // Prevent rendering if product is undefined
 
   return (
     <Card
@@ -38,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image Section */}
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
-          src={imageUrl}
+          src={`${product.images[0]}.jpg`}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"

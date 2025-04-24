@@ -2574,8 +2574,8 @@
   }
 
   @media (width >= 40rem) {
-    .sm\:h-72 {
-      height: calc(var(--spacing) * 72);
+    .sm\:h-80 {
+      height: calc(var(--spacing) * 80);
     }
   }
 
@@ -2648,8 +2648,8 @@
   }
 
   @media (width >= 48rem) {
-    .md\:h-80 {
-      height: calc(var(--spacing) * 80);
+    .md\:h-\[400px\] {
+      height: 400px;
     }
   }
 
@@ -2781,8 +2781,8 @@
   }
 
   @media (width >= 64rem) {
-    .lg\:h-96 {
-      height: calc(var(--spacing) * 96);
+    .lg\:h-\[500px\] {
+      height: 500px;
     }
   }
 
@@ -2822,6 +2822,12 @@
     .lg\:text-6xl {
       font-size: var(--text-6xl);
       line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+
+  @media (width >= 80rem) {
+    .xl\:h-\[600px\] {
+      height: 600px;
     }
   }
 
