@@ -64,7 +64,8 @@ export default function EnquiryPage() {
       } else {
         setMessage("Failed to send email.");
       }
-    } catch (_error) {
+    } catch (error) {
+      console.log(error);
       setMessage("Error sending email.");
     } finally {
       setLoading(false);
