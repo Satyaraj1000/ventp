@@ -39,7 +39,7 @@ export default function AboutPage() {
 
         <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-md">
           <Image
-            src=""
+            src="/image.jpeg"
             alt="Vaibhavi Enterprises"
             layout="fill"
             objectFit="cover"
@@ -83,7 +83,7 @@ export default function AboutPage() {
             <FaCheckCircle className="text-[#0E9696]" /> Our Mission
           </h2>
           <p className="text-gray-700">
-            To be India's most trusted provider of surface coatings and
+            To be India&apos;s most trusted provider of surface coatings and
             filtration media by maintaining top-quality standards, adopting
             ethical practices, and offering unmatched customer support.
           </p>
@@ -123,7 +123,7 @@ export default function AboutPage() {
           <li>
             <strong>Vaicon Porous Filters:</strong> Engineered from sintered
             UHMWPE, these filters ensure consistent filtration and
-            breathability. They’re widely used in air and fluid filtration for
+            breathability. They&apos;re widely used in air and fluid filtration for
             pharmaceutical cleanrooms, chemical handling, and laboratory
             equipment.
           </li>

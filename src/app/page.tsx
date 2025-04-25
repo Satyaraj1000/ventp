@@ -23,6 +23,19 @@ export default function Home() {
     "/images/poster8.png",
   ];
 
+   interface Product {
+    id: string;
+    name: string;
+    slug: string;
+    category: string;
+    description: string;
+    shortDescription: string;
+    images: string[];
+    features: string[];
+    applications: string[];
+    industries: string[];
+  }
+
   return (
     <main className="w-full p-5 md:p-10 block">
       {/* Carousel */}
@@ -58,9 +71,9 @@ export default function Home() {
               M/s. VAIBHAVI ENTERPRISES is a fast-growing company with a strong
               focus on quality & best customer service. Since 1989, our
               organization has been acknowledged as a leader in development &
-              advancement of surface enhancement 'Viflon' (Fluoropolymer)
+              advancement of surface enhancement &apos;Viflon&apos; (Fluoropolymer)
               coating for metal surfaces & other substrates. We are also a
-              manufacturer of 'Vaicon' Porus Plastics filter media especially
+              manufacturer of &apos;Vaicon&apos; Porus Plastics filter media especially
               for pharmaceutical, Chemical & Pneumatics companies for their
               different applications.
             </p>
@@ -77,7 +90,7 @@ export default function Home() {
 
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {product.map((product: any) => (
+            {product.map((product: Product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

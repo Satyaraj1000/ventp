@@ -153,6 +153,8 @@ export default function EnquiryPage() {
             <Input
               id="phone"
               type="tel"
+              pattern="[0-9]{10}"
+              title="Enter a valid 10-digit phone number"
               required
               className="peer h-12 pt-6"
               value={formData.phone}
@@ -256,10 +258,8 @@ export default function EnquiryPage() {
         {/* Message */}
         {message && (
           <p
-            className={`text-center text-sm ${
-              message.includes("successfully")
-                ? "text-green-600"
-                : "text-red-600"
+            className={`text-sm font-medium ${
+              message.includes("success") ? "text-green-600" : "text-red-600"
             }`}
           >
             {message}
