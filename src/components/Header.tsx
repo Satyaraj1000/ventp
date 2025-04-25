@@ -20,13 +20,19 @@ import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [isProductsOpenMobile, setIsProductsOpenMobile] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false); // NEW
+
+  const handleCloseSheet = () => {
+    setIsSheetOpen(false);
+    setIsProductsOpenMobile(false); // optional: collapse nested menu
+  };
 
   return (
     <nav className="bg-white shadow-md w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center" onClick={handleCloseSheet}>
             <Image src="/logo.png" alt="logo" width={40} height={40} />
             <span className="text-xl sm:text-2xl lg:text-4xl font-extrabold text-[#0E9696] ml-3 tracking-tighter">
               VAIBHAVI ENTERPRISES
@@ -75,27 +81,22 @@ export default function Header() {
 
           {/* Mobile Navigation */}
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Menu size={24} />
                 </Button>
               </SheetTrigger>
-              <SheetContent
-                side="right"
-                className="bg-white w-[300px] px-4 py-4"
-              >
+              <SheetContent side="right" className="bg-white w-[300px] px-4 py-4">
                 <div className="flex flex-col space-y-4 mt-6">
-                  <Link href="/" className="mobile-link">
+                  <Link href="/" className="mobile-link" onClick={handleCloseSheet}>
                     Home
                   </Link>
-                  <Link href="/about" className="mobile-link">
+                  <Link href="/about" className="mobile-link" onClick={handleCloseSheet}>
                     About Us
                   </Link>
                   <button
-                    onClick={() =>
-                      setIsProductsOpenMobile(!isProductsOpenMobile)
-                    }
+                    onClick={() => setIsProductsOpenMobile(!isProductsOpenMobile)}
                     className="mobile-link flex items-center justify-between"
                   >
                     Products & Services
@@ -113,16 +114,17 @@ export default function Header() {
                           key={product.id}
                           href={`/products/${product.slug}`}
                           className="text-gray-700 text-base hover:text-[#0E9696] block bg-gray-50 p-2"
+                          onClick={handleCloseSheet}
                         >
                           {product.name}
                         </Link>
                       ))}
                     </div>
                   )}
-                  <Link href="/contact" className="mobile-link">
+                  <Link href="/contact" className="mobile-link" onClick={handleCloseSheet}>
                     Contact Us
                   </Link>
-                  <Link href="/enquiry" className="mobile-link">
+                  <Link href="/enquiry" className="mobile-link" onClick={handleCloseSheet}>
                     Enquiry Form
                   </Link>
                 </div>
