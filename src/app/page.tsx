@@ -6,18 +6,14 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import * as Tabs from "@radix-ui/react-tabs";
+import { useRouter } from "next/navigation";
 import Autoplay from "embla-carousel-autoplay";
 import ProductCard from "@/components/ProductCard";
-import { pro } from '@/data/application';
-import { getProductBySlug, products } from "@/data/products";
-import { useMemo } from "react";
+import { products } from "@/data/products";
 import IndustryApplications from '@/components/IndustryApplications';
 
 export default function Home() {
   const router = useRouter();
-  const params = useParams();
 
   const images = [
     "/images/poster1.png",
@@ -41,11 +37,6 @@ export default function Home() {
     features: string[];
     applications: string[];
     industries: string[];
-  }
-
-  interface Pro {
-    id:number;
-    name: string;
   }
 
   return (
