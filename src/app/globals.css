@@ -13,3 +13,22 @@
 .mobile-link {
   @apply text-base text-gray-800 font-medium hover:text-[#0E9696] transition duration-300;
 }
+
+@layer utilities {
+  .animate-fade-in {
+    @apply opacity-0 animate-[fade-in_0.6s_forwards];
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Delays */
+  .animation-delay-0 { animation-delay: 0ms; }
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+}
