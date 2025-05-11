@@ -3,6 +3,7 @@ import { Theme } from "@radix-ui/themes";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppButton from '@/components/WhatsAppButton';
 import { Metadata } from "next";
 
 
@@ -118,6 +119,7 @@ export default function RootLayout({
       <Theme>
         <Header />
         <body>{children}</body>
+        <WhatsAppButton />
         <Footer />
       </Theme>
     </html>

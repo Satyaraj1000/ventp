@@ -5,13 +5,20 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import * as Tabs from "@radix-ui/react-tabs";
+import Autoplay from "embla-carousel-autoplay";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/data/products"; // Static data
+import { pro } from '@/data/application';
+import { getProductBySlug, products } from "@/data/products";
+import { useMemo } from "react";
+import IndustryApplications from '@/components/IndustryApplications';
 
 export default function Home() {
-  const product = products;
+  const router = useRouter();
+  const params = useParams();
+
   const images = [
     "/images/poster1.png",
     "/images/poster2.png",
@@ -23,7 +30,7 @@ export default function Home() {
     "/images/poster8.png",
   ];
 
-   interface Product {
+  interface Product {
     id: string;
     name: string;
     slug: string;
@@ -36,15 +43,19 @@ export default function Home() {
     industries: string[];
   }
 
+  interface Pro {
+    id:number;
+    name: string;
+  }
+
   return (
-    <main className="w-full p-5 md:p-10 block">
-      {/* Carousel */}
+    <main className="w-full p-2 md:p-4 block">
       {/* Carousel */}
       <Carousel
         plugins={[Autoplay({ delay: 3000 })]}
         className="w-full mx-auto bg-gray-800 p-2 rounded-lg"
       >
-        <CarouselContent className="w-full h-64 sm:h-80 md:h-[400px] lg:h-[500px] xl:h-[600px]">
+        <CarouselContent className="w-full m-2 h-40 sm:h-80 md:h-[300px] lg:h-[400px] xl:h-[500px]">
           {images.map((src, idx) => (
             <CarouselItem key={idx} className="relative w-full h-full">
               <Image
@@ -52,7 +63,7 @@ export default function Home() {
                 alt={`Slide ${idx + 1}`}
                 fill
                 className="object-cover rounded-md"
-                priority={idx === 0} // Optional: prioritize first image
+                priority={idx === 0}
               />
             </CarouselItem>
           ))}
@@ -64,33 +75,55 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           {/* Welcome Section */}
           <div className="text-center pb-12 md:pb-16">
-            <h1 className="text-2xl md:text-3xl lg:text-6xl font-bold pb-4 md:pb-8 bg-gradient-to-b from-[#0E9696] to-[#043030] bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold pb-4 md:pb-8 bg-gradient-to-b from-[#0E9696] to-[#043030] bg-clip-text text-transparent">
               Welcome to Protective Coating World
             </h1>
             <p className="text-base md:text-xl text-gray-900 max-w-4xl mx-auto">
               M/s. VAIBHAVI ENTERPRISES is a fast-growing company with a strong
-              focus on quality & best customer service. Since 1989, our
+              focus on quality & best customer service.
+              <br /><br /> Since 1989, our
               organization has been acknowledged as a leader in development &
-              advancement of surface enhancement &apos;Viflon&apos; (Fluoropolymer)
-              coating for metal surfaces & other substrates. We are also a
-              manufacturer of &apos;Vaicon&apos; Porus Plastics filter media especially
-              for pharmaceutical, Chemical & Pneumatics companies for their
-              different applications.
+              advancement of surface enhancement &apos;Viflon&apos;
+              (Fluoropolymer) coating for metal surfaces & other substrates.
+              <br /><br />
+              We are also a manufacturer of &apos;Vaicon&apos; Porus Plastics 
+              filter media especially for pharmaceutical, Chemical & Pneumatics
+              companies for their different applications.
             </p>
+            <div className="mt-6">
+              <button
+                onClick={() => router.push("/about")}
+                className="px-6 py-2 text-white bg-[#0E9696] hover:bg-[#076969] rounded-full text-base font-semibold md:text-lg transition"
+              >
+                More About Us
+              </button>
+            </div>
           </div>
 
           {/* Divider */}
           <div className="flex items-center md:gap-4 mb-12">
             <span className="h-2 bg-[#0E9696] flex-1"></span>
-            <h2 className="text-2xl md:text-4xl font-bold text-black whitespace-nowrap px-4">
+            <h2 className="text-2xl md:text-6xl font-bold text-black whitespace-nowrap px-4">
+              Applications (Industries)
+            </h2>
+            <span className="h-2 bg-[#0E9696] flex-1"></span>
+          </div>
+
+          <IndustryApplications />
+          
+
+          {/* Divider */}
+          <div className="flex items-center md:gap-4 mb-12">
+            <span className="h-2 bg-[#0E9696] flex-1"></span>
+            <h2 className="text-2xl md:text-6xl font-bold text-black whitespace-nowrap px-4">
               Our Products
             </h2>
             <span className="h-2 bg-[#0E9696] flex-1"></span>
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {product.map((product: Product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-8">
+            {products.map((product: Product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
